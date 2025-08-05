@@ -31,6 +31,12 @@ class PokeTest {
 		return this;
 	}
 
+	PokeTest both(PokeTeam team) {
+		this.playerSets = team;
+		this.enemySets = team;
+		return this;
+	}
+
 	PokeTest turn(string playerMove, string enemyMove) {
 		appendTurn();
 		currentTurn.playerAction.chosenMove = playerMove;

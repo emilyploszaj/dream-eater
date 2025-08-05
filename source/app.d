@@ -69,17 +69,14 @@ EmulatorState setupEmulator() {
 	});
 	interrupts ~= Interrupt(symbols.lookup("BattleTurn.move_over"), () {
 		trace("Done with move");
-		ubyte dmgHi = emu.read(symbols.lookup("wCurDamage"));
-		ubyte dmgLo = emu.read(symbols.lookup("wCurDamage") + 1);
-		uint dmg = ((dmgHi & 0x0F) << 8) | dmgLo;
-		trace("Dealt ", dmg, " damage");
+		state.endMove();
 	});
 	interrupts ~= Interrupt(symbols.lookup("BattleTurn.deferred_switch_over"), () {
 		trace("Done with deferred switch");
 	});
 	interrupts ~= Interrupt(symbols.lookup("BattleTurn.end_of_turn_over"), () {
 		trace("Done with end of turn");
-		endTurn(state);
+		state.endTurn();
 	});
 	interrupts ~= Interrupt(symbols.lookup("BattleTurn.do_move"), () {
 		trace(emu.read(symbols.lookup("hBattleTurn")) == 0 ? "Player turn:" : "Enemy turn:");
