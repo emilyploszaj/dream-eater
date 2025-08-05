@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"Emi"
+	],
+	"dependencies": {
+		"imaged": "~>1.0.2"
+	},
+	"lflags": [
+		"-Llib/libgambatte.so"
+	],
+	"name": "dream-eater"
+}
