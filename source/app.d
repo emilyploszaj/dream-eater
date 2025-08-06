@@ -12,24 +12,42 @@ import logging;
 import sets;
 import sym;
 import state;
+import test;
 
 int testThreads = 10;
 
+__gshared AllBaseStats stats;
 __gshared Constants pokemonConstants, moveConstants, itemConstants;
 __gshared SymbolTable symbols;
 
-void main() {
+void main(string[] args) {
+	parseArgs(args);
 	pokemonConstants = parseConstants("polishedcrystal/constants/pokemon_constants.asm");
 	moveConstants = parseConstants("polishedcrystal/constants/move_constants.asm");
 	itemConstants = parseConstants("polishedcrystal/constants/item_constants.asm");
+	stats = parseBaseStats("polishedcrystal/data/pokemon/base_stats");
 	symbols = getSymbols("rom/polishedcrystal-debug-3.2.0.sym");
-	import test;
 	initTesting();
 	for (int i = 0; i < testThreads; i++) {
 		new Thread({
 			while (runNextTest()) {
 			}
 		}).start();
+	}
+}
+
+void parseArgs(string[] args) {
+	for (int i = 1; i < args.length; i++) {
+		string arg = args[i];
+		if (arg.startsWith("-")) {
+			if (arg == "--trace") {
+				shouldTrace = true;
+			} else {
+				error("Unrecognized argument: ", arg);
+			}
+		} else {
+			testShortlist ~= arg;
+		}
 	}
 }
 

@@ -1,8 +1,10 @@
 module sets;
 
 import std.algorithm;
+import std.string;
 
 import app;
+import logging;
 
 struct PokeTeam {
 	PokeSet[] sets;
@@ -47,6 +49,7 @@ private enum string[] NATURE_NAMES = [
 struct PokeSet {
 	string species = "";
 	string _item = "";
+	ubyte _ability = 0;
 	ubyte _nature = 0;
 	ubyte form = 0;
 	ubyte level = 5;
@@ -72,6 +75,21 @@ struct PokeSet {
 
 	PokeSet evs(ubyte[6] evs) {
 		this._evs = evs;
+		return this;
+	}
+
+	PokeSet ability(string abil) {
+		abil = abil.toLower();
+		string[] abilities = stats.get(species).abilities;
+		if (abilities[0] == abil) {
+			_ability = 0;
+		} else if (abilities[1] == abil) {
+			_ability = 2;
+		} else if (abilities[2] == abil) {
+			_ability = 3;
+		} else {
+			throw new Exception(species ~ " does not have the ability " ~ abil);
+		}
 		return this;
 	}
 
@@ -119,7 +137,7 @@ struct PokeSet {
 		ret ~= _evs[5]; // spe
 		ret ~= _evs[3..5]; // spa, spd
 
-		ret ~= _nature; // Personality
+		ret ~= cast(ubyte) ((_ability << 5) | _nature); // Personality
 
 		// Moves
 		for (int i = 0; i < 4; i++) {
