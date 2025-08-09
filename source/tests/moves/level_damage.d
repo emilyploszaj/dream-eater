@@ -19,8 +19,8 @@ PokeTest levelDamage_amount() {
 		]))
 		.turn("night_shade", "seismic_toss")
 		.validate((state, player, enemy) {
-			assert(player.damageDealt == 55, "Night Shade should deal damage equal to attacker's level");
-			assert(enemy.damageDealt == 65, "Seismic Toss should deal damage equal to attacker's level");
+			assert(player.move.damage == 55, "Night Shade should deal damage equal to attacker's level");
+			assert(enemy.move.damage == 65, "Seismic Toss should deal damage equal to attacker's level");
 		})
 	;
 }
@@ -37,8 +37,8 @@ PokeTest levelDamage_effectiveness() {
 		]))
 		.turn("night_shade", "seismic_toss")
 		.validate((state, player, enemy) {
-			assert(player.damageDealt == 0, "Night Shade should be effected by immunities");
-			assert(enemy.damageDealt == 50, "Seismic Toss should not deal more damage against Normal types");
+			assert(player.move.damage == 0, "Night Shade should be effected by immunities");
+			assert(enemy.move.damage == 50, "Seismic Toss should not deal more damage against Normal types");
 		})
 	;
 }

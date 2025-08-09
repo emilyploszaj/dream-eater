@@ -93,12 +93,12 @@ private PokeTest createTypeBoostingTest(string item, string move) {
 		]))
 		.turn(move, move)
 		.validate((state, player, enemy) {
-			assert(within(enemy.damageDealt * 12 / 10, player.damageDealt, 2), "Item should increase damage by 20%");
+			assert(within(enemy.move.damage * 12 / 10, player.move.damage, 2), "Item should increase damage by 20%");
 		})
 		.turn("recover", "recover")
 		.turn(other, other)
 		.validate((state, player, enemy) {
-			assert(player.damageDealt == player.damageDealt, "Item should not increase damage for moves of the wrong type");
+			assert(player.move.damage == player.move.damage, "Item should not increase damage for moves of the wrong type");
 		})
 	;
 }

@@ -19,8 +19,8 @@ PokeTest fixedDamage_amount() {
 		]))
 		.turn("sonic_boom", "dragon_rage")
 		.validate((state, player, enemy) {
-			assert(player.damageDealt == 20, "Sonic Boom should deal exactly 20 damage");
-			assert(enemy.damageDealt == 40, "Dragon Rage should deal exactly 40 damage");
+			assert(player.move.damage == 20, "Sonic Boom should deal exactly 20 damage");
+			assert(enemy.move.damage == 40, "Dragon Rage should deal exactly 40 damage");
 		})
 	;
 }
@@ -37,8 +37,8 @@ PokeTest fixedDamage_effectiveness() {
 		]))
 		.turn("sonic_boom", "dragon_rage")
 		.validate((state, player, enemy) {
-			assert(player.damageDealt == 20, "Sonic Boom should not deal less damage against Rock types");
-			assert(enemy.damageDealt == 0, "Dragon Rage should be effected by immunities");
+			assert(player.move.damage == 20, "Sonic Boom should not deal less damage against Rock types");
+			assert(enemy.move.damage == 0, "Dragon Rage should be effected by immunities");
 		})
 	;
 }
@@ -46,7 +46,7 @@ PokeTest fixedDamage_effectiveness() {
 PokeTest fixedDamage_stab() {
 	return new PokeTest()
 		.player(PokeTeam([
-			PokeSet("porygon", 50)
+			PokeSet("porygon", 60)
 				.moves(["sonic_boom", "dragon_rage"])
 		]))
 		.enemy(PokeTeam([
@@ -55,8 +55,8 @@ PokeTest fixedDamage_stab() {
 		]))
 		.turn("sonic_boom", "dragon_rage")
 		.validate((state, player, enemy) {
-			assert(player.damageDealt == 20, "Sonic Boom should not get STAB");
-			assert(enemy.damageDealt == 40, "Dragon Rage should not get STAB");
+			assert(player.move.damage == 20, "Sonic Boom should not get STAB");
+			assert(enemy.move.damage == 40, "Dragon Rage should not get STAB");
 		})
 	;
 }

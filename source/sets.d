@@ -54,7 +54,7 @@ struct PokeSet {
 	ubyte form = 0;
 	ubyte level = 5;
 	// hp, atk, def, spa, spd, spe
-	ubyte[6] _dvs = [15, 15, 15, 15, 15, 15];
+	ubyte[6] _dvs = [0, 0, 0, 0, 0, 0];
 	ubyte[6] _evs = [0, 0, 0, 0, 0, 0];
 	string[] _moves = [];
 

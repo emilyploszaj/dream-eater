@@ -4,8 +4,8 @@ import std.stdio;
 
 import test;
 
-bool shouldTrace = false;
-bool shouldLog = true;
+__gshared bool shouldTrace = false;
+__gshared bool shouldLog = true;
 
 void trace(T...)(T args) {
 	if (shouldTrace) {

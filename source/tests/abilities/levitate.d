@@ -21,7 +21,7 @@ PokeTest levitate_basic() {
 		]))
 		.turn("recover", "mud_slap")
 		.validate((state, player, enemy) {
-			assert(enemy.damageDealt == 0, "Levitate mons should not be hit by Ground moves");
+			assert(enemy.move.damage == 0, "Levitate mons should not be hit by Ground moves");
 		})
 	;
 }
@@ -40,7 +40,7 @@ PokeTest levitate_gravity() {
 		]))
 		.turn("gravity", "mud_slap")
 		.validate((state, player, enemy) {
-			assert(enemy.damageDealt > 0, "Levitate mons should be hit by Ground moves during Gravity");
+			assert(enemy.move.damage > 0, "Levitate mons should be hit by Ground moves during Gravity");
 		})
 	;
 }
@@ -60,7 +60,7 @@ PokeTest levitate_ironBall() {
 		]))
 		.turn("recover", "mud_slap")
 		.validate((state, player, enemy) {
-			assert(enemy.damageDealt > 0, "Levitate mons should be hit by Ground moves if holding Iron Ball");
+			assert(enemy.move.damage > 0, "Levitate mons should be hit by Ground moves if holding Iron Ball");
 		})
 	;
 }
@@ -79,7 +79,7 @@ PokeTest levitate_moldBreaker() {
 		]))
 		.turn("recover", "mud_slap")
 		.validate((state, player, enemy) {
-			assert(enemy.damageDealt > 0, "Levitate mons should be hit by Ground moves if the user has Mold Breaker");
+			assert(enemy.move.damage > 0, "Levitate mons should be hit by Ground moves if the user has Mold Breaker");
 		})
 	;
 }

@@ -1,7 +1,7 @@
 module test;
 
 import core.exception;
-import core.sync;
+import core.sync.mutex;
 
 import std.algorithm;
 import std.array;

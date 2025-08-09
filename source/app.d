@@ -3,6 +3,7 @@ import core.thread;
 import std.algorithm;
 import std.conv;
 import std.stdio;
+import std.string;
 
 import constants;
 import emulator;
@@ -40,8 +41,14 @@ void parseArgs(string[] args) {
 	for (int i = 1; i < args.length; i++) {
 		string arg = args[i];
 		if (arg.startsWith("-")) {
-			if (arg == "--trace") {
+			if (arg == "--help") {
+				writeln("USAGE: dream-eater [--threads=<n>] [--trace] [<tests>]");
+				import core.stdc.stdlib;
+				exit(0);
+			} else if (arg == "--trace") {
 				shouldTrace = true;
+			} else if (arg.startsWith("--threads=")) {
+				testThreads = arg.split("=")[1].to!int;
 			} else {
 				error("Unrecognized argument: ", arg);
 			}
