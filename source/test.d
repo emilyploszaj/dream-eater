@@ -27,7 +27,7 @@ class PokeTest {
 
 	PokeTest player(PokeTeam team) {
 		this.playerSets = team;
-		return this;	
+		return this;
 	}
 
 	PokeTest enemy(PokeTeam team) {
