@@ -5,7 +5,7 @@ import sets;
 import state;
 import test;
 
-mixin TestModule;
+mixin TestModule!(mixin(__MODULE__));
 
 PokeTest stats_natures() {
 	// Natures should confer a 10% advantage or disadvantage in respective stats
