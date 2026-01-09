@@ -27,7 +27,7 @@ void main(string[] args) {
 	moveConstants = parseConstants("polishedcrystal/constants/move_constants.asm");
 	itemConstants = parseConstants("polishedcrystal/constants/item_constants.asm");
 	stats = parseBaseStats("polishedcrystal/data/pokemon/base_stats");
-	symbols = getSymbols("rom/polishedcrystal-debug-3.2.0.sym");
+	symbols = getSymbols("polishedcrystal/polishedcrystal-testing-3.2.0.sym");
 	initTesting();
 	for (int i = 0; i < testThreads; i++) {
 		new Thread({
@@ -63,14 +63,13 @@ EmulatorState setupEmulator() {
 	EmulatorState state = new EmulatorState(emu);
 	emu.create();
 	emu.loadBios("rom/gbc_bios.bin");
-	emu.load("rom/polishedcrystal-debug-3.2.0.gbc");
+	emu.load("polishedcrystal/polishedcrystal-testing-3.2.0.gbc");
 	Interrupt[] interrupts;
 	interrupts ~= Interrupt(symbols.lookup("_TitleScreen"), () {
 		trace("Title screen");
 	});
 	interrupts ~= Interrupt(symbols.lookup("SetInitialOptions"), () {
 		trace("Init Options");
-		emu.exportScreenshot("e");
 		state.inputStack ~= [
 			InputSequence()
 				.repeat(InputSequence()
@@ -80,6 +79,7 @@ EmulatorState setupEmulator() {
 		];
 	});
 	interrupts ~= Interrupt(symbols.lookup("DoBattle"), () {
+		state.startBattle();
 		trace("Starting battle");
 	});
 	interrupts ~= Interrupt(symbols.lookup("ExitBattle"), () {

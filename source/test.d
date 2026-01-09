@@ -78,6 +78,7 @@ class PokeTest {
 			state.enemyTeam = enemySets;
 			runTurns(state, turns);
 			state.executeInputs();
+			assert(state.started, "Battle never started! Is the ROM and BIOS correct?");
 			assert(!state.ended, "Battle ended early on turn " ~ state.turn.to!string);
 		} catch (AssertError e) {
 			state.emu.exportScreenshot("fail");

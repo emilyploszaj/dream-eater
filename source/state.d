@@ -17,8 +17,3 @@ struct Turn {
 void runTurns(EmulatorState state, Turn[] turnSeq) {
 	state.turns = turnSeq[];
 }
-
-void endBattle(EmulatorState state) {
-	state.endTurn();
-	state.ended = true;
-}

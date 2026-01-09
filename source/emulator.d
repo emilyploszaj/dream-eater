@@ -10,6 +10,7 @@ class EmulatorState {
 	Emulator emu;
 	InputSequence[] inputStack;
 	uint turn = 0;
+	bool started = false;
 	bool ended = false;
 	Turn[] turns;
 	PokeTeam playerTeam;
@@ -72,6 +73,15 @@ class EmulatorState {
 		turn++;
 		playerMoves.length = 0;
 		enemyMoves.length = 0;
+	}
+
+	void startBattle() {
+		started = true;
+	}
+
+	void endBattle() {
+		endTurn();
+		ended = true;
 	}
 }
 

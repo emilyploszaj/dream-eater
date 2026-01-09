@@ -7,6 +7,6 @@ Data is collected from source files for constant names and ROM and RAM addresses
 ### Usage
 Dream Eater is written in [D](https://dlang.org/) and requires [dub](https://dub.pm/) to build.
 
-From Polished Crystal, Dream Eater needs either a source copy or symlink to the project at `polishedcrystal` to scrape necessary data. A built version of the game at `rom/polishedcrystal.gbc` and the `.sym` file at `rom/polishedcrystal.sym` is required to actually run the game and access up to date memory addresses.
+From Polished Crystal, Dream Eater needs either a source copy or symlink to the project at `polishedcrystal` to scrape necessary data. The game needs to be built off of the `dream-eater` branch in the `testing` configuration, using `make testing`.
 
 Additionally, Dream Eater requires `lib/libgambatte.so` and `rom/gbc_bios.bin` be present in the project directory, both of which need to be acquired separately to run.
