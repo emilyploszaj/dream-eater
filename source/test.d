@@ -200,19 +200,16 @@ bool within(int a, int b, int discretion) {
 	return abs(a - b) <= discretion;
 }
 
-template TestModule() {
+mixin template TestModule(alias M) {
 	shared static this() {
 		import std.traits;
-		static foreach (m; __traits(derivedMembers, mixin(__MODULE__))) {
-			static if (__traits(isStaticFunction, __traits(getMember, mixin(__MODULE__), m))) {
-				static if(is(ReturnType!(__traits(getMember, mixin(__MODULE__), m)) == PokeTest)) {
-					static if(arity!(__traits(getMember, mixin(__MODULE__), m)) == 0) {
-						{
-							PokeTest delegate() test = () => __traits(getMember, mixin(__MODULE__), m)();
-							addTestCase(test, __traits(fullyQualifiedName, __traits(getMember, mixin(__MODULE__), m)));
+		static foreach (m; __traits(allMembers, M)) {
+			static if (__traits(compiles, ReturnType!(__traits(getMember, M, m)))) {
+					static if (is(ReturnType!(__traits(getMember, M, m)) == PokeTest)) {
+						static if (arity!(__traits(getMember, M, m)) == 0) {
+							addTestCase(() => __traits(getMember, M, m)(), M.stringof ~ "." ~ m);
 						}
 					}
-				}
 			}
 		}
 	}

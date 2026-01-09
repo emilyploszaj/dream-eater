@@ -5,7 +5,7 @@ import sets;
 import state;
 import test;
 
-mixin TestModule;
+mixin TestModule!(mixin(__MODULE__));
 
 PokeTest typeBoosting_silkScarf() {
 	return createTypeBoostingTest("silk_scarf", "tackle");
