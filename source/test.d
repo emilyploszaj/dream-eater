@@ -43,6 +43,14 @@ class PokeTest {
 
 	PokeTest turn(string playerMove, string enemyMove) {
 		appendTurn();
+		PokeSet playerSet = playerSets.sets[0];
+		PokeSet enemySet = enemySets.sets[0];
+		if (playerSet.moves.countUntil(playerMove) == -1) {
+			error("Player's ", playerSet.species, "'s set does not have the move ", playerMove, " in ", playerSet.moves);
+		}
+		if (enemySet.moves.countUntil(enemyMove) == -1) {
+			error("Enemy's ", enemySet.species, "'s set does not have the move ", enemyMove, " in ", enemySet.moves);
+		}
 		currentTurn.playerAction.chosenMove = playerMove;
 		currentTurn.enemyAction.chosenMove = enemyMove;
 		return this;
@@ -109,6 +117,7 @@ string getTestStatus() {
 	ulong succeededPortion = succeeded * 40 / total;
 	ulong failedPortion = failed * 40 / total;
 	ulong runningPortion = running * 40 / total;
+	ulong startedPortion = (succeeded + failed + running) * 40 / total;
 	if (succeededPortion == 0 && succeeded > 0) {
 		succeededPortion = 1;
 	}
@@ -124,6 +133,9 @@ string getTestStatus() {
 		} else {
 			failedPortion--;
 		}
+	}
+	while (succeededPortion + failedPortion + runningPortion < startedPortion) {
+		runningPortion++;
 	}
 	ulong unstartedPortion = 40 - succeededPortion - runningPortion - failedPortion;
 	string progress = "[\033[92m" ~ FOURTY_EQUALS[0..succeededPortion];
@@ -178,13 +190,22 @@ bool runTest(PokeTest delegate() test, string name) {
 	log("Running \033[95m", name, "\033[0m...");
 	import std.datetime.stopwatch;
 	StopWatch sw = StopWatch(AutoStart.yes);
+	PokeTest pt;
 	try {
-		test().run();
+		pt = test();
+		pt.run();
 	} catch (AssertError e) {
-		error("\033[95m", name, "\033[0m failed with the following exception\n", e);
+		string text = "\033[0m failed!\n"
+			~ turnState(pt) ~ '\n'
+			~ "Failed with the following exception\n";
+		error("\033[95m", name, text, e);
+
 		return false;
 	} catch (Exception e) {
-		error("\033[95m", name, "\033[0m failed with the following exception\n", e);
+		string text = "\033[0m failed!\n"
+			~ turnState(pt) ~ '\n'
+			~ "Failed with the following exception\n";
+		error("\033[95m", name, text, e);
 		return false;
 	}
 	import std.conv: to;
@@ -192,6 +213,13 @@ bool runTest(PokeTest delegate() test, string name) {
 	return true;
 }
 
+string turnState(PokeTest test) {
+	if (test is null) {
+		return "[test failed to initialize!]";
+	} else {
+		return test.state.turnLog.join("\n");
+	}
+}
 void addTestCase(PokeTest delegate() test, string name) {
 	allTests ~= TestCase(test, name);
 }

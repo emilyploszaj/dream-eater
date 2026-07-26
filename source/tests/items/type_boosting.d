@@ -85,11 +85,11 @@ private PokeTest createTypeBoostingTest(string item, string move) {
 		.player(PokeTeam([
 			PokeSet("hypno", 70)
 				.item(item)
-				.moves([move, "recover"])
+				.moves([move, other, "recover"])
 		]))
 		.enemy(PokeTeam([
 			PokeSet("hypno", 70)
-				.moves([move, "recover"])
+				.moves([move, other, "recover"])
 		]))
 		.turn(move, move)
 		.validate((state, player, enemy) {

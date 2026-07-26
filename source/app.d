@@ -18,7 +18,7 @@ import test;
 int testThreads = 10;
 
 __gshared AllBaseStats stats;
-__gshared Constants pokemonConstants, moveConstants, itemConstants;
+__gshared Constants pokemonConstants, moveConstants, itemConstants, abilityConstants;
 __gshared SymbolTable symbols;
 
 void main(string[] args) {
@@ -26,6 +26,7 @@ void main(string[] args) {
 	pokemonConstants = parseConstants("polishedcrystal/constants/pokemon_constants.asm");
 	moveConstants = parseConstants("polishedcrystal/constants/move_constants.asm");
 	itemConstants = parseConstants("polishedcrystal/constants/item_constants.asm");
+	abilityConstants = parseConstants("polishedcrystal/constants/ability_constants.asm");
 	stats = parseBaseStats("polishedcrystal/data/pokemon/base_stats");
 	symbols = getSymbols("polishedcrystal/polishedcrystal-testing-3.2.0.sym");
 	initTesting();

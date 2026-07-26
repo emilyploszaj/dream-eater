@@ -6,6 +6,7 @@ import core.sys.posix.dlfcn;
 import std.format;
 import std.string: toStringz;
 
+import app;
 import logging;
 
 public enum uint JOY_A = 0x01;
@@ -113,16 +114,28 @@ class Emulator {
 		gambatte_setregs(gb, reg.arr.ptr);
 	}
 
+	ubyte read(string symbol) {
+		return read(symbols.lookup(symbol));
+	}
+
 	ubyte read(uint addr) {
 		alias SIG = extern(C) ubyte function(void*, ushort) nothrow;
 		SIG gambatte_cpuread = loadFunction!(SIG, "gambatte_cpuread");
 		return gambatte_cpuread(gb, cast(ushort) addr);
 	}
 
+	ushort read16LE(string symbol) {
+		return read16LE(symbols.lookup(symbol));
+	}
+
 	ushort read16LE(uint addr) {
 		ubyte lo = read(addr);
 		ubyte hi = read(addr + 1);
 		return cast(ushort) ((cast(ushort) hi << 8) | lo);
+	}
+
+	ushort read16BE(string symbol) {
+		return read16BE(symbols.lookup(symbol));
 	}
 
 	ushort read16BE(uint addr) {

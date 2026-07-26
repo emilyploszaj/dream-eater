@@ -82,11 +82,11 @@ struct PokeSet {
 		abil = abil.toLower();
 		string[] abilities = stats.get(species).abilities;
 		if (abilities[0] == abil) {
-			_ability = 0;
+			this._ability = 1;
 		} else if (abilities[1] == abil) {
-			_ability = 2;
+			this._ability = 2;
 		} else if (abilities[2] == abil) {
-			_ability = 3;
+			this._ability = 3;
 		} else {
 			throw new Exception(species ~ " does not have the ability " ~ abil);
 		}
@@ -94,7 +94,7 @@ struct PokeSet {
 	}
 
 	PokeSet nature(string nat) {
-		_nature = cast(ubyte) NATURE_NAMES.countUntil(nat);
+		this._nature = cast(ubyte) NATURE_NAMES.countUntil(nat);
 		return this;
 	}
 

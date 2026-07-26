@@ -1,5 +1,7 @@
 module emulator;
 
+import std.conv;
+
 import app;
 import gambatte;
 import input;
@@ -18,6 +20,7 @@ class EmulatorState {
 	private ubyte wEnemyGoesFirst;
 	private MoveData[] playerMoves;
 	private MoveData[] enemyMoves;
+	string[] turnLog;
 
 	this(Emulator emu) {
 		this.emu = emu;
@@ -69,6 +72,7 @@ class EmulatorState {
 
 	void endTurn() {
 		wEnemyGoesFirst = emu.read(symbols.lookup("wEnemyGoesFirst"));
+		logTurn();
 		turns[turn].callback();
 		turn++;
 		playerMoves.length = 0;
@@ -82,6 +86,22 @@ class EmulatorState {
 	void endBattle() {
 		endTurn();
 		ended = true;
+	}
+
+	void logTurn() {
+		string text = " --- Turn " ~ turn.to!string ~ " --- \n";
+		MonData[] datas = [enemy, player];
+		if (player.wentFirst()) {
+			datas = [player, enemy];
+		}
+		foreach (MonData data; datas) {
+			TurnAction action = data.player ? turns[turn].playerAction : turns[turn].enemyAction;
+			text ~= (data.player ? "Player" : "Enemy") ~ "\n";
+			float percent = data.hp().to!float / data.maxHp() * 100;
+			text ~= "  " ~ data.hp().to!string ~ "/" ~ data.maxHp().to!string ~ "HP (" ~ percent.to!string ~ "%)\n";
+			text ~= "  Used " ~ action.chosenMove ~ ", dealt " ~ data.moves[$ - 1].damage.to!string ~ " damage\n";
+		}
+		turnLog ~= text;
 	}
 }
 
