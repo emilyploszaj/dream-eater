@@ -1,0 +1,21 @@
+# Default: treat files as text when reasonable and normalize to LF
+* text=auto eol=lf
+
+# Explicit rules for tracked file types
+# D language source files
+*.d text eol=lf
+
+# JSON and project manifests
+*.json text eol=lf
+dub.json text eol=lf
+
+# Markdown
+*.md text eol=lf
+
+# Keep .gitkeep files as text so empty directories remain tracked
+*.gitkeep text eol=lf
+
+# Preserve binary blobs / large assets: don't treat as text
+# (Most binary assets live under polishedcrystal/ and rom/; exclude them from conversion)
+polishedcrystal/** -text
+rom/** -text

@@ -5,7 +5,7 @@ import sets;
 import state;
 import test;
 
-mixin TestModule;
+mixin TestModule!(mixin(__MODULE__));
 
 PokeTest fixedDamage_amount() {
 	return new PokeTest()
